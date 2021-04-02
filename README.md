@@ -1,6 +1,6 @@
 # Universal API Converter
 
-cd into ```universal_converter```
+cd into the ```universal_converter``` directory.
 
 Use ```npm start``` to run the server.
 
