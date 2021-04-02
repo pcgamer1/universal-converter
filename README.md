@@ -1,6 +1,4 @@
-# universal_converter
-
-Univeral API Format Converter
+# Universal API Converter
 
 Use ```npm start``` to run the server.
 
