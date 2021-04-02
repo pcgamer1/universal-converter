@@ -16,11 +16,11 @@ router.post('/converter', upload.single('file'), async (req, res) => {
         origFile = buffer.toString()
 
     var mappings = {
-        'openapi': ['postman2']
+        'openapi': ['postman']
     }
 
     if (mappings[format].includes(convertTo)) {
-        if (format === 'openapi' && convertTo === 'postman2')  {
+        if (format === 'openapi' && convertTo === 'postman')  {
             try {
                 opentopostman.convert({ type: type, data: origFile },
                     {}, (err, conversionResult) => {
