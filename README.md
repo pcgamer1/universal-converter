@@ -1,5 +1,7 @@
 # Universal API Converter
 
+cd into ```universal_converter```
+
 Use ```npm start``` to run the server.
 
 Use the following curl after replacing the path to your local OpenAPI document that you want to convert:
