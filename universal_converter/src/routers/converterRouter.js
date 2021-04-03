@@ -4,7 +4,8 @@ const multer = require('multer');
 const upload = multer();
 const router = new express.Router()
 
-const opentopostman = require('../../../openapi-to-postman/index')
+const openapiToPostman = require('../../../openapi-to-postman/index')
+const swaggerToPostman = require('../../../swagger2-postman2/index')
 
 router.use(express.json())
 
@@ -15,26 +16,29 @@ router.post('/converter', upload.single('file'), async (req, res) => {
         buffer = Buffer.from(file.buffer),
         origFile = buffer.toString()
 
-    var mappings = {
-        'openapi': ['postman']
+    var mapping = {
+        'openapi3': {
+            'postman2': openapiToPostman
+        },
+        'swagger2': {
+            'postman2': swaggerToPostman
+        },
     }
 
-    if (mappings[format].includes(convertTo)) {
-        if (format === 'openapi' && convertTo === 'postman')  {
-            try {
-                opentopostman.convert({ type: type, data: origFile },
-                    {}, (err, conversionResult) => {
-                        if (!conversionResult.result) {
-                            res.status(400).send({"result": "error", "message": conversionResult.reason})
-                        }
-                        else {
-                            res.status(200).send({"result": "success", "message": "Conversion successful.", "data": conversionResult.output[0].data})
-                        }
+    if (mapping[format] && Object.keys(mapping[format]).includes(convertTo)) {
+        try {
+            mapping[format][convertTo].convert({ type: type, data: origFile },
+                {}, (err, conversionResult) => {
+                    if (!conversionResult.result) {
+                        res.status(400).send({"result": "error", "message": conversionResult.reason})
                     }
-                );
-            } catch(e) {
-                res.status(500).send()
-            }
+                    else {
+                        res.status(200).send({"result": "success", "message": "Conversion successful.", "data": conversionResult.output[0].data})
+                    }
+                }
+            );
+        } catch(e) {
+            res.status(500).send()
         }
     }
 
