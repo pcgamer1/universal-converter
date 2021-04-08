@@ -5,12 +5,12 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node index.js"
+    "start": "node index.js",
+    "heroku-postbuild": "cd openapi-to-postman && npm i && cd .. && cd swagger2-postman2 && npm i && npm run build"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "ajv": "^8.0.5",
     "body-parser": "^1.19.0",
     "cors": "^2.8.5",
     "express": "^4.17.1",
