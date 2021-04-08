@@ -1,29 +1,20 @@
 const fs = require('fs')
 const express = require('express')
+const cors = require('cors')
 const multer = require('multer');
 const upload = multer();
 const router = new express.Router()
 
-const openapiToPostman = require('../../../openapi-to-postman/index')
-const swaggerToPostman = require('../../../swagger2-postman2/index')
+const { mapping } = require('../constants/config')
 
 router.use(express.json())
 
-router.post('/converter', upload.single('file'), async (req, res) => {
+router.post('/converter', cors(), upload.single('file'), async (req, res) => {
 
     var file = req.file,
         {format, type, convertTo} = req.query,
         buffer = Buffer.from(file.buffer),
         origFile = buffer.toString()
-
-    var mapping = {
-        'openapi3': {
-            'postman2': openapiToPostman
-        },
-        'swagger2': {
-            'postman2': swaggerToPostman
-        },
-    }
 
     if (mapping[format] && Object.keys(mapping[format]).includes(convertTo)) {
         try {
