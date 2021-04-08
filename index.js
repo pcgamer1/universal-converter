@@ -2,5 +2,5 @@
 const app = require('./app')
 
 app.listen(process.env.PORT || 3001, () => {
-    console.log('Server is up on port', port)
+    console.log('Server is up on port')
 })
