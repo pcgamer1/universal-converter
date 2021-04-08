@@ -2,8 +2,6 @@ const express = require('express')
 const converterRouter = require('./src/routers/converterRouter')
 const configRouter = require('./src/routers/configRouter')
 
-require('dotenv').config({path: __dirname + '/.env'})
-
 const app = express()
 
 app.use(express.json())
