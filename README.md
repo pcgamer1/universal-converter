@@ -1,8 +1,9 @@
 # Universal API Converter
 
-Live at : http://converterbackend.herokuapp.com/
+## Live at
+http://converterbackend.herokuapp.com/
 
-# Running the server locally
+## Running the server locally
 
 cd into the ```universal_converter``` directory.
 
