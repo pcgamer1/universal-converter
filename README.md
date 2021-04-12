@@ -1,7 +1,7 @@
 # Universal API Converter
 
 ## Live at
-http://converterbackend.herokuapp.com/
+http://converterbackend.herokuapp.com/convert
 
 ## Running the server locally
 
