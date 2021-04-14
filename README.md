@@ -1,5 +1,10 @@
 # Universal API Converter
 
+## Live at
+http://converterbackend.herokuapp.com/convert
+
+## Running the server locally
+
 cd into the ```universal_converter``` directory.
 
 Use ```npm start``` to run the server.
