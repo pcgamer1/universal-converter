@@ -11,12 +11,12 @@ module.exports = {
     'swagger2': {
         'postman2': swaggerToPostman
     },
-    'postman2': {
-      'openapi3': null
-    },
     'raml1': {
       'postman2': ramlToPostman,
       'openapi3': ['postman2'],
+    },
+    'postman2': {
+      'openapi3': null
     },
   },
 }
