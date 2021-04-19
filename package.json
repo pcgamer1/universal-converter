@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node index.js",
-    "heroku-postbuild": "cd openapi-to-postman && npm i && cd .. && cd swagger2-postman2 && npm i && npm run build"
+    "heroku-postbuild": "cd openapi-to-postman && npm i && cd .. && cd swagger2-postman2 && npm i && cd .. && cd raml1-to-postman && npm i && npm run build"
   },
   "author": "",
   "license": "ISC",
