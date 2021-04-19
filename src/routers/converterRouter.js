@@ -59,7 +59,7 @@ router.post('/converter', cors(), upload.single('file'), async (req, res) => {
           }
           else if (format === 'postman2') {
             fs.writeFileSync('./temp.json', origFile)
-            let result = postmanToOpenApi('./temp.json', null, { defaultTag: 'General' })
+            let result = await postmanToOpenApi('./temp.json', null, { defaultTag: 'General' })
             res.status(200).send({"result": "success", "message": "Conversion successful.", "data": result})
           }
         }
