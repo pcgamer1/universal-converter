@@ -12,7 +12,7 @@ module.exports = {
         'postman2': swaggerToPostman
     },
     'postman2': {
-      'openapi3': postmanToOpenapi
+      'openapi3': null
     },
     'raml1': {
       'postman2': ramlToPostman,

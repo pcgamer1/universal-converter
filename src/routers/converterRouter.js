@@ -6,7 +6,7 @@ const upload = multer();
 const router = new express.Router()
 
 const { mapping } = require('../constants/config');
-const { promisify } = require('util');
+const postmanToOpenApi = require('postman-to-openapi');
 
 router.use(express.json())
 
@@ -29,7 +29,7 @@ async function convertPath (steps, origFile) {
     }
     else if (format === 'postman2') {
       fs.writeFileSync('./temp.json', origFile)
-      origFile = await mapping[format][convertTo]('./temp.json', null, { defaultTag: 'General' })
+      origFile = await postmanToOpenApi('./temp.json', null, { defaultTag: 'General' })
     }
   }
   return origFile
@@ -57,8 +57,9 @@ router.post('/converter', cors(), upload.single('file'), async (req, res) => {
               }
             )
           }
-          else {
-            let result = mapping[format][convertTo](origFile, null, { defaultTag: 'General' })
+          else if (format === 'postman2') {
+            fs.writeFileSync('./temp.json', origFile)
+            let result = postmanToOpenApi('./temp.json', null, { defaultTag: 'General' })
             res.status(200).send({"result": "success", "message": "Conversion successful.", "data": result})
           }
         }
