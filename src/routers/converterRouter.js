@@ -25,9 +25,10 @@ async function convertPath (steps, origFile) {
         })
       }
       let result = await aconvert({ type: 'string', data: origFile }, {})
-      origFile = JSON.stringify(result.output[0].data)
+      origFile = result.output[0].data
     }
     else if (format === 'postman2') {
+      if(typeof origFile == 'object') origFile = JSON.stringify(origFile)
       fs.writeFileSync('./temp.json', origFile)
       origFile = await postmanToOpenApi('./temp.json', null, { defaultTag: 'General' })
     }
@@ -43,42 +44,20 @@ router.post('/converter', cors(), upload.single('file'), async (req, res) => {
         origFile = buffer.toString()
 
     if (mapping[format] && Object.keys(mapping[format]).includes(convertTo)) {
-      try {
-        if (!Array.isArray(mapping[format][convertTo])) {
-          if(convertMethod.includes(JSON.stringify([format, convertTo]))) {
-            mapping[format][convertTo].convert({ type: type, data: origFile },
-              {}, (err, conversionResult) => {
-                if (!conversionResult.result) {
-                  res.status(400).send({"result": "error", "message": conversionResult.reason})
-                }
-                else {
-                  res.status(200).send({"result": "success", "message": "Conversion successful.", "data": conversionResult.output[0].data})
-                }
-              }
-            )
-          }
-          else if (format === 'postman2') {
-            fs.writeFileSync('./temp.json', origFile)
-            let result = await postmanToOpenApi('./temp.json', null, { defaultTag: 'General' })
-            res.status(200).send({"result": "success", "message": "Conversion successful.", "data": result})
-          }
-        }
-        else {
-          let steps = [], path = mapping[format][convertTo]
+        let steps = [], path = mapping[format][convertTo]
+        if(Array.isArray(path)) {
           steps.push([format, path[0]])
           for (let i = 0; i<path.length-1; i++) {
             steps.push([path[i], [path[i+1]]])
           }
           steps.push([path[path.length-1], convertTo])
-
-          let result = await convertPath(steps, origFile)
-
-          res.status(200).send({"result": "success", "message": "Conversion successful.", "data": result})
         }
-      } catch(e) {
-          res.status(500).send(e)
-          console.log(e)
+        else {
+          steps.push([format, convertTo])
         }
+        let result = await convertPath(steps, origFile)
+
+        res.status(200).send({"result": "success", "message": "Conversion successful.", "data": result})
     }
     else {
         res.status(400).send({"result": "error", "message": "No conversion mapping found."})
